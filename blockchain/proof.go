@@ -59,13 +59,14 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 		data := pow.InitData(nonce)
 		hash := sha256.Sum256(data)
 
-		fmt.Printf("\r%x", hash)
 		intHash.SetBytes(hash[:])
 
 		if intHash.Cmp(pow.Target) == -1 {
+			fmt.Printf("\rHash Found: %x", hash)
 			hashresult = hash
 			break
 		} else {
+			fmt.Printf("\rHash not matching: %x", hash)
 			nonce++
 		}
 	}
