@@ -1,9 +1,8 @@
 package blockchain
 
 import (
-	"bytes"
-	"crypto/sha256"
 	"fmt"
+	"strconv"
 )
 
 type BlockChain struct {
@@ -14,17 +13,15 @@ type Block struct {
 	Hash     []byte
 	Data     []byte
 	PrevHash []byte
-}
-
-func (b *Block) CreateHash() {
-	info := bytes.Join([][]byte{b.Data, b.PrevHash}, []byte{})
-	hash := sha256.Sum224(info)
-	b.Hash = hash[:]
+	Nonce    int
 }
 
 func CreateBlock(data string, prevHash []byte) *Block {
-	block := &Block{[]byte{}, []byte(data), prevHash}
-	block.CreateHash()
+	block := &Block{[]byte{}, []byte(data), prevHash, 0}
+	pow := NewProof(block)
+	nonce, hash := pow.Run()
+	block.Hash = hash[:]
+	block.Nonce = nonce
 	return block
 }
 
@@ -44,9 +41,12 @@ func InitBlockChain() *BlockChain {
 
 func (chain *BlockChain) Print() {
 	for _, block := range chain.Blocks {
+
 		fmt.Printf("Prev Hash: \t%x\n", block.PrevHash)
 		fmt.Printf("Data: \t\t%s\n", block.Data)
 		fmt.Printf("Hash: \t\t%x\n", block.Hash)
+		pow := NewProof(block)
+		fmt.Printf("Proof of Work: \t%s\n", strconv.FormatBool(pow.Validate()))
 		fmt.Println("---")
 	}
 }

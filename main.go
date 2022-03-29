@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./blockchain"
+	"Go-Blockchain/blockchain"
 	"fmt"
 )
 

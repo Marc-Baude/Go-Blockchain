@@ -1,5 +1,3 @@
-module github.com/tensor-programming/golang-blockchain
+module Go-Blockchain
 
 go 1.13
-
-require rsc.io/quote v1.5.2
