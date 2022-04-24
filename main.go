@@ -1,9 +1,8 @@
 package main
 
 import (
-	"Go-Blockchain/blockchain"
-	"flag"
 	"fmt"
+	"github.com/marc-baude/go-blockchain"
 	"log"
 	"os"
 	"runtime"
